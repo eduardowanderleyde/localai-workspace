@@ -1,0 +1,27 @@
+# Serviços de apoio. O Ollama roda direto no macOS (aceleração Metal do Apple Silicon),
+# por isso não está aqui. Limites de memória para não competir com o modelo nos 18 GB.
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: localai-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-localai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localai}
+      POSTGRES_DB: ${POSTGRES_DB:-localai}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-localai}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+
+volumes:
+  pgdata:
