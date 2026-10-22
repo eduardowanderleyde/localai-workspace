@@ -30,15 +30,19 @@ def fake_ollama(request: httpx.Request) -> httpx.Response:
 
 @pytest.fixture
 def client():
-    app = create_app(Settings(_env_file=None), transport=httpx.MockTransport(fake_ollama))
+    settings = Settings(_env_file=None, database_url="")
+    app = create_app(settings, transport=httpx.MockTransport(fake_ollama))
     with TestClient(app) as c:
         yield c
 
 
 def test_health(client):
     data = client.get("/health").json()
-    assert data["status"] == "ok"
+    assert data["ollama"] == "ok"
     assert data["missing_models"] == []
+    # Sem banco configurado a API continua de pé, mas sinaliza o problema.
+    assert data["database"] == "unavailable"
+    assert data["status"] == "degraded"
 
 
 def test_chat(client):

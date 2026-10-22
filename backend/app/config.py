@@ -16,10 +16,22 @@ class Settings(BaseSettings):
     request_timeout_s: float = 120.0
 
     system_prompt: str = (
-        "Você é o LocalAI Workspace, um assistente corporativo que roda localmente. "
+        "Você é o Assistente da EMPETUR (Empresa de Turismo de Pernambuco), que roda localmente. "
         "Responda em português do Brasil, de forma objetiva e precisa. "
         "Se não souber a resposta, diga que não sabe em vez de inventar."
     )
+
+    # Banco vazio desativa as rotas de documentos (útil em testes do chat).
+    database_url: str = "postgresql://localai:localai@localhost:5434/localai"
+    embedding_dim: int = 1024  # bge-m3
+
+    chunk_size: int = 1200
+    chunk_overlap: int = 200
+    rag_top_k: int = 6
+    # HyDE: trecho hipotético para ampliar a busca. Desligado: na avaliação não melhorou o hit@6.
+    rag_hyde: bool = False
+    # Similaridade de cosseno mínima para um trecho ser usado como fonte.
+    rag_min_score: float = 0.45
 
     cors_origins: list[str] = ["http://localhost:3000"]
 

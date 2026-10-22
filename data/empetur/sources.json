@@ -1,0 +1,120 @@
+{
+  "description": "Fontes públicas do site oficial da EMPETUR (www.empetur.pe.gov.br). Os arquivos são baixados localmente em data/raw/ e não são versionados.",
+  "sources": [
+    {
+      "title": "Código de Ética e Conduta da EMPETUR (Resolução nº 11/2024)",
+      "url": "https://www.empetur.pe.gov.br/images/transparencia/governanca_corporativa/Codigo_de_Etica_e_Conduta_da_EMPETUR.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Política de Fomento — Resolução de Diretoria nº 01/2010",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/Política_de_Fomento_Nov_2010_-_Resolução_01.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Política de Fomento — Resolução EMPETUR nº 02",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/RESOLUÇÃO_EMPETUR_Nº_02.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Política de Fomento — Resolução nº 03",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/Resolução_da_Política_de_Fomento_03.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Resolução EMPETUR nº 04/2015 — Contratações artísticas, copatrocínio e cessão",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/RESOLUÇÃO_N_4_CONTRATAÇÕES_ARTÍSTICAS_COPATROCÍNIO_E_CESSÃO_1.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Resolução EMPETUR nº 05/2015 — Convênios",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/RESOLUÇÃO_N_5_CONVÊNIOS.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Resolução EMPETUR nº 006/2021 — Contratações artísticas",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/Resolução_nº_006-2021_-_Contratações_Artísticas_3.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Resolução EMPETUR nº 007/2021 — Convênios",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/Resolução_nº_007-2021_-_Convênios_1.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Resolução EMPETUR nº 10",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/resolucoes/07._RESOLUCAO_N_10_EMPETUR_ASSINADO_VF.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Decreto Estadual nº 39.376/2013",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/Decreto_N39.376_de_maio_de_2013.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Portaria SCGE nº 55/2013",
+      "url": "https://www.empetur.pe.gov.br/images/fomento/Portaria_SCGE_N_55_27_de_novembro_de_2013.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "Programa Jovem Aprendiz EMPETUR",
+      "url": "https://www.empetur.pe.gov.br/images/programa-jovem-aprendiz/PROGRAMA_JOVEM_APRENDIZ-3_editado_1.pdf",
+      "type": "pdf"
+    },
+    {
+      "title": "EMPETUR — Apresentação institucional",
+      "url": "https://www.empetur.pe.gov.br/institucional/apresentacao",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Política de Fomento",
+      "url": "https://www.empetur.pe.gov.br/politica-de-fomento",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Conselho de Administração",
+      "url": "https://www.empetur.pe.gov.br/institucional/estrutura-administrativa/o-conselho-de-administracao",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Observatório do Turismo",
+      "url": "https://www.empetur.pe.gov.br/institucional/observatorio-do-turismo",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Comissão de Ética",
+      "url": "https://www.empetur.pe.gov.br/comissaodeetica",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Ouvidoria",
+      "url": "https://www.empetur.pe.gov.br/ouvidoria-2",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Programa de Integridade",
+      "url": "https://www.empetur.pe.gov.br/transparencia/programa-de-integridade",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Perguntas frequentes (Transparência)",
+      "url": "https://www.empetur.pe.gov.br/transparencia/perguntas-frequentes",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Informações institucionais",
+      "url": "https://www.empetur.pe.gov.br/transparencia/informacoes-institucionais",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Legislação",
+      "url": "https://www.empetur.pe.gov.br/legislacao1",
+      "type": "html"
+    },
+    {
+      "title": "EMPETUR — Contato",
+      "url": "https://www.empetur.pe.gov.br/contato",
+      "type": "html"
+    }
+  ]
+}

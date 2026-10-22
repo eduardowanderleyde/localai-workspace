@@ -12,7 +12,7 @@ node_modules/
 # Ambiente e dados locais
 .env
 *.local
-data/uploads/
+data/raw/
 
 # macOS / editores
 .DS_Store

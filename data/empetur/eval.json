@@ -1,0 +1,61 @@
+{
+  "description": "Perguntas de avaliação da recuperação. Um caso acerta quando algum trecho recuperado contém um dos textos esperados (comparação sem diferenciar maiúsculas e ignorando quebras de linha).",
+  "cases": [
+    {
+      "question": "Um empregado da EMPETUR pode receber presentes de fornecedores?",
+      "expected": ["ajuda financeira, presente"]
+    },
+    {
+      "question": "Quais documentos são exigidos para firmar um convênio com a EMPETUR?",
+      "expected": ["FGTS"]
+    },
+    {
+      "question": "Qual é o endereço da EMPETUR?",
+      "expected": ["Andrade Bezerra"]
+    },
+    {
+      "question": "Qual o telefone da ouvidoria?",
+      "expected": ["3182-8308"]
+    },
+    {
+      "question": "A EMPETUR é vinculada a qual secretaria?",
+      "expected": ["Secretaria de Turismo e Lazer"]
+    },
+    {
+      "question": "O que faz o Observatório do Turismo?",
+      "expected": ["Observatório do Turismo de Pernambuco"]
+    },
+    {
+      "question": "Posso emprestar minha senha do sistema para um colega?",
+      "expected": ["compartilhar senhas"]
+    },
+    {
+      "question": "Posso ter um parente como meu subordinado em cargo de confiança?",
+      "expected": ["chefia imediata"]
+    },
+    {
+      "question": "É permitido usar informações internas da empresa para fazer negócios particulares?",
+      "expected": ["informações privilegiadas"]
+    },
+    {
+      "question": "Como me candidatar ao Programa Jovem Aprendiz?",
+      "expected": ["talentos@empetur"]
+    },
+    {
+      "question": "Como foi criado o Conselho de Administração da EMPETUR?",
+      "expected": ["Conselho de Administração da EMPETUR foi instituído"]
+    },
+    {
+      "question": "A EMPETUR participa de algum programa estadual de integridade?",
+      "expected": ["Pernambuco Mais Íntegro"]
+    },
+    {
+      "question": "Qual número de telefone posso ligar para falar com a Ouvidoria Geral do Estado?",
+      "expected": ["162"]
+    },
+    {
+      "question": "Como é feito o pagamento de cachê de artistas contratados pela EMPETUR?",
+      "expected": ["cachê"]
+    }
+  ]
+}
