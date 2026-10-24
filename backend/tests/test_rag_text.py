@@ -20,3 +20,12 @@ def test_chunks_respect_size_and_keep_page():
     assert len(chunks) > 1
     assert all(len(c.content) <= 300 for c in chunks)
     assert all(c.page == 3 for c in chunks)
+
+
+def test_article_continuation_chunks_carry_caput():
+    caput = "Art. 13. É vedado ao integrante da EMPETUR:"
+    incisos = " ".join(f"{n}. proibição número {n} com texto de preenchimento;" for n in "IVX" * 6)
+    chunks = chunk_pages([Page(1, f"{caput} {incisos} Art. 14. Regra curta.")], 200, 30)
+    assert chunks[0].content.startswith("Art. 13.")
+    assert all(c.content.startswith(f"({caput})") for c in chunks[1:-1])
+    assert chunks[-1].content.startswith("Art. 14.")

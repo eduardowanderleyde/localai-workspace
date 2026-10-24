@@ -74,14 +74,16 @@ class RagService:
                 f"Nenhum texto extraído de {filename} (PDF escaneado precisa de OCR)."
             )
 
+        title = title or PurePath(filename).stem.replace("_", " ")
         embeddings: list[list[float]] = []
         for i in range(0, len(chunks), EMBED_BATCH):
             batch = chunks[i : i + EMBED_BATCH]
-            embeddings += await self.llm.embed([c.content for c in batch])
+            # O título entra no texto vetorizado para dar contexto ao trecho isolado.
+            embeddings += await self.llm.embed([f"{title}\n\n{c.content}" for c in batch])
 
         has_pages = pages[0].number is not None
         document = await self.store.add(
-            title=title or PurePath(filename).stem.replace("_", " "),
+            title=title,
             filename=filename,
             source_url=source_url,
             sha256=sha256,

@@ -34,11 +34,17 @@ Falhas atuais (✗): presentes de fornecedores, documentos para convênio, progr
 - **HyDE sozinho** (só a consulta hipotética) levou "presentes" e "convênio" ao top 4, mas piorou o endereço. Combinado com a pergunta original via RRF, empatou com o original.
 - O bge-m3 do Ollama está saudável: em lote e individual dão o mesmo resultado, e a similaridade entre frases faz sentido.
 
+## 2026-10-24: Recuperação de 71% para 86%
+
+- **Trechos por artigo:** um artigo novo começa um trecho novo, e os trechos que continuam um artigo longo recebem o caput entre parênteses, por exemplo `(ART. 13. É vedado ao integrante da EMPETUR…:) III. …`.
+- **Título do documento no texto vetorizado** (contextual chunking). O título não é gravado no trecho, só entra no embedding.
+- Resultado: **hit@6 = 86%** (12/14), MRR 0.55, com 514 trechos.
+- Ainda falham: "presentes de fornecedores" (trecho na posição 73 do vetor e 49 do texto) e "documentos para convênio" (melhor posição 27). Os dois precisam de um **reranker** com mais candidatos.
+
 ## Próximos passos (retomar aqui)
 1. **Melhorar a recuperação**, sempre medindo com `make eval`:
-   - Dividir por **artigo/inciso** nos documentos jurídicos (`Art.`, incisos `I.`, `II.`…) em vez de por tamanho fixo.
-   - Colocar o **título do documento** dentro do texto embutido de cada trecho (contextual chunking).
-   - Testar o **reranker** sobre a busca híbrida com mais candidatos (60 a 80), atrás de uma configuração.
+   - ~~Dividir por artigo/inciso~~ e ~~título no embedding~~: feitos em 2026-10-24.
+   - **Próximo:** reranker `bge-reranker-v2-m3` sobre a busca híbrida com 80 candidatos, atrás de uma configuração (`RAG_RERANK`). Medir o hit@6 e a latência.
    - Ampliar o eval para cerca de 30 perguntas.
 2. **Interface web (Next.js)**: chat com as fontes clicáveis (título, página, link para o PDF oficial).
 3. **OCR** para os PDFs escaneados: as Resoluções 08/2023 e 09/2023 hoje ficam sem texto.

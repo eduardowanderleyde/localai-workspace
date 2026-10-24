@@ -18,7 +18,7 @@ O Ollama roda nativamente no macOS para usar a GPU do Apple Silicon; os demais s
 ## Roadmap
 
 - [x] **Etapa 1 — IA local:** API FastAPI conversando com o Qwen3 8B (resposta completa ou streaming SSE)
-- [~] **Etapa 2 — RAG:** upload de PDF/DOCX/HTML/TXT, busca híbrida (pgvector + texto) e respostas com citação das fontes. *Funciona; a qualidade da recuperação ainda está em ajuste (hit@6 = 71%).*
+- [~] **Etapa 2 — RAG:** upload de PDF/DOCX/HTML/TXT, busca híbrida (pgvector + texto) e respostas com citação das fontes. *Funciona; a qualidade da recuperação ainda está em ajuste (hit@6 = 86%).*
 - [ ] **Etapa 3 — Agente:** ferramentas (chamados, relatórios), confirmação antes de ações e trilha de auditoria
 - [ ] **Etapa 4 — Publicação:** interface web, demo, testes e documentação
 
