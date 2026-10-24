@@ -18,13 +18,13 @@ O Ollama roda nativamente no macOS para usar a GPU do Apple Silicon; os demais s
 ## Roadmap
 
 - [x] **Etapa 1 — IA local:** API FastAPI conversando com o Qwen3 8B (resposta completa ou streaming SSE)
-- [~] **Etapa 2 — RAG:** upload de PDF/DOCX/HTML/TXT, busca híbrida (pgvector + texto) e respostas com citação das fontes. *Funciona; a qualidade da recuperação ainda está em ajuste (hit@6 = 86%).*
+- [~] **Etapa 2 — RAG:** upload de PDF/DOCX/HTML/TXT, busca híbrida (pgvector + texto) e respostas com citação das fontes. *Funciona; a qualidade da recuperação ainda está em ajuste (hit@6 = 77% em 31 perguntas).*
 - [ ] **Etapa 3 — Agente:** ferramentas (chamados, relatórios), confirmação antes de ações e trilha de auditoria
 - [ ] **Etapa 4 — Publicação:** interface web, demo, testes e documentação
 
 ## Como rodar
 
-Pré-requisitos: [Ollama](https://ollama.com), Docker, [uv](https://docs.astral.sh/uv/).
+Pré-requisitos: [Ollama](https://ollama.com), Docker, [uv](https://docs.astral.sh/uv/) e, para OCR de PDFs escaneados, `brew install tesseract` com o modelo de português em `data/tessdata/` (veja [docs/PROGRESSO.md](docs/PROGRESSO.md)).
 
 ```bash
 ollama pull qwen3:8b

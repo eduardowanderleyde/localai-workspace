@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import Settings, get_settings
 from app.db import open_pool
 from app.llm import OllamaClient
+from app.rag.ocr import build_ocr
 from app.rag.rerank import Reranker
 from app.rag.service import RagService
 from app.rag.store import DocumentStore
@@ -33,7 +34,9 @@ def create_app(
                 if settings.rag_rerank:
                     reranker = Reranker(settings.rerank_model)
                     reranker.warm_up()  # carrega o modelo na subida, não na 1ª pergunta
-                app.state.rag = RagService(settings, app.state.llm, DocumentStore(pool), reranker)
+                app.state.rag = RagService(
+                    settings, app.state.llm, DocumentStore(pool), reranker, build_ocr(settings)
+                )
             except Exception:
                 # A API sobe mesmo sem banco; as rotas de documentos respondem 503.
                 log.exception("Não foi possível conectar ao Postgres")

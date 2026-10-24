@@ -17,6 +17,7 @@ import httpx
 from app.config import get_settings
 from app.db import open_pool
 from app.llm import OllamaClient
+from app.rag.ocr import build_ocr
 from app.rag.service import EmptyDocumentError, RagService
 from app.rag.store import DocumentStore
 
@@ -48,7 +49,7 @@ async def main(manifest: Path) -> int:
     settings = get_settings()
     llm = OllamaClient(settings)
     pool = await open_pool(settings.database_url, settings.embedding_dim)
-    rag = RagService(settings, llm, DocumentStore(pool))
+    rag = RagService(settings, llm, DocumentStore(pool), ocr=build_ocr(settings))
     failures = 0
 
     headers = {"User-Agent": "Mozilla/5.0 (LocalAI Workspace; public data ingestion)"}

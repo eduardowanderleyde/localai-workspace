@@ -4,6 +4,7 @@ import io
 import logging
 import re
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import PurePath
 
@@ -14,6 +15,12 @@ from pypdf import PdfReader
 logging.getLogger("pypdf").setLevel(logging.ERROR)
 
 SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".html", ".htm", ".txt", ".md"}
+
+# Páginas de PDF com menos texto que isso são tratadas como escaneadas e vão para o OCR.
+OCR_MIN_CHARS = 100
+
+# Recebe o PDF e os números das páginas; devolve o texto reconhecido de cada uma.
+OCRFunc = Callable[[bytes, list[int]], dict[int, str]]
 
 
 class UnsupportedFileError(ValueError):
@@ -53,11 +60,16 @@ def strip_repeated_lines(pages: list[str], min_len: int = 15) -> list[str]:
     ]
 
 
-def parse_document(filename: str, data: bytes) -> list[Page]:
+def parse_document(filename: str, data: bytes, ocr: OCRFunc | None = None) -> list[Page]:
     ext = PurePath(filename).suffix.lower()
     if ext == ".pdf":
         raw = [p.extract_text() or "" for p in PdfReader(io.BytesIO(data)).pages]
         pages = [Page(i, clean_text(t)) for i, t in enumerate(strip_repeated_lines(raw), 1)]
+        scanned = [p.number for p in pages if len(p.text) < OCR_MIN_CHARS]
+        if ocr and scanned:
+            recognized = strip_repeated_lines(list(ocr(data, scanned).values()))
+            for number, text in zip(scanned, recognized, strict=True):
+                pages[number - 1].text = clean_text(text)
     elif ext == ".docx":
         paragraphs = [p.text for p in docx.Document(io.BytesIO(data)).paragraphs]
         pages = [Page(None, clean_text("\n\n".join(paragraphs)))]

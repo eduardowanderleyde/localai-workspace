@@ -1,61 +1,196 @@
 {
-  "description": "Perguntas de avaliação da recuperação. Um caso acerta quando algum trecho recuperado contém um dos textos esperados (comparação sem diferenciar maiúsculas e ignorando quebras de linha).",
+  "description": "Perguntas de avaliação da recuperação. Um caso acerta quando algum trecho recuperado contém um dos textos esperados (comparação sem diferenciar maiúsculas e ignorando quebras de linha). `unanswerable` lista perguntas sem resposta nos documentos, para avaliar recusas na resposta final.",
   "cases": [
     {
       "question": "Um empregado da EMPETUR pode receber presentes de fornecedores?",
-      "expected": ["ajuda financeira, presente"]
+      "expected": [
+        "recebimento de presentes"
+      ]
     },
     {
       "question": "Quais documentos são exigidos para firmar um convênio com a EMPETUR?",
-      "expected": ["FGTS"]
+      "expected": [
+        "FGTS"
+      ]
     },
     {
       "question": "Qual é o endereço da EMPETUR?",
-      "expected": ["Andrade Bezerra"]
+      "expected": [
+        "Andrade Bezerra"
+      ]
     },
     {
       "question": "Qual o telefone da ouvidoria?",
-      "expected": ["3182-8308"]
+      "expected": [
+        "3182-8308"
+      ]
     },
     {
       "question": "A EMPETUR é vinculada a qual secretaria?",
-      "expected": ["Secretaria de Turismo e Lazer"]
+      "expected": [
+        "Secretaria de Turismo e Lazer"
+      ]
     },
     {
       "question": "O que faz o Observatório do Turismo?",
-      "expected": ["Observatório do Turismo de Pernambuco"]
+      "expected": [
+        "Observatório do Turismo de Pernambuco"
+      ]
     },
     {
       "question": "Posso emprestar minha senha do sistema para um colega?",
-      "expected": ["compartilhar senhas"]
+      "expected": [
+        "compartilhar senhas"
+      ]
     },
     {
       "question": "Posso ter um parente como meu subordinado em cargo de confiança?",
-      "expected": ["chefia imediata"]
+      "expected": [
+        "chefia imediata"
+      ]
     },
     {
       "question": "É permitido usar informações internas da empresa para fazer negócios particulares?",
-      "expected": ["informações privilegiadas"]
+      "expected": [
+        "informações privilegiadas"
+      ]
     },
     {
       "question": "Como me candidatar ao Programa Jovem Aprendiz?",
-      "expected": ["talentos@empetur"]
+      "expected": [
+        "talentos@empetur"
+      ]
     },
     {
       "question": "Como foi criado o Conselho de Administração da EMPETUR?",
-      "expected": ["Conselho de Administração da EMPETUR foi instituído"]
+      "expected": [
+        "Conselho de Administração da EMPETUR foi instituído"
+      ]
     },
     {
       "question": "A EMPETUR participa de algum programa estadual de integridade?",
-      "expected": ["Pernambuco Mais Íntegro"]
+      "expected": [
+        "Pernambuco Mais Íntegro"
+      ]
     },
     {
       "question": "Qual número de telefone posso ligar para falar com a Ouvidoria Geral do Estado?",
-      "expected": ["162"]
+      "expected": [
+        "162"
+      ]
     },
     {
       "question": "Como é feito o pagamento de cachê de artistas contratados pela EMPETUR?",
-      "expected": ["cachê"]
+      "expected": [
+        "cachê"
+      ]
+    },
+    {
+      "question": "Minha prefeitura quer apoio da EMPETUR para um evento. Com quanto tempo de antecedência devo enviar o projeto?",
+      "expected": [
+        "antecedência mínima de 30"
+      ]
+    },
+    {
+      "question": "Qual o prazo para prestar contas dos recursos recebidos?",
+      "expected": [
+        "em até 30 (trinta) dias, contados a partir da liberação"
+      ]
+    },
+    {
+      "question": "Uma ONG pode firmar convênio com a EMPETUR?",
+      "expected": [
+        "privada sem fins lucrativos"
+      ]
+    },
+    {
+      "question": "Para contratar um artista por meio de empresário exclusivo, qual vínculo é exigido?",
+      "expected": [
+        "duração mínima contratual de 06"
+      ]
+    },
+    {
+      "question": "O que o artista precisa apresentar para ser contratado pela EMPETUR?",
+      "expected": [
+        "proposta de preço apresentada pelo artista"
+      ]
+    },
+    {
+      "question": "Qual a idade para ser jovem aprendiz na EMPETUR?",
+      "expected": [
+        "entre 16 e 20 anos"
+      ]
+    },
+    {
+      "question": "Quanto ganha um jovem aprendiz na EMPETUR?",
+      "expected": [
+        "761,55"
+      ]
+    },
+    {
+      "question": "Posso aceitar um brinde de pequeno valor de uma empresa?",
+      "expected": [
+        "R$100,00"
+      ]
+    },
+    {
+      "question": "Quais penalidades existem para quem descumpre o Código de Ética?",
+      "expected": [
+        "Censura"
+      ]
+    },
+    {
+      "question": "Qual o horário de atendimento da EMPETUR?",
+      "expected": [
+        "08h às 17h"
+      ]
+    },
+    {
+      "question": "Posso fazer campanha política no ambiente de trabalho?",
+      "expected": [
+        "posicionamento político"
+      ]
+    },
+    {
+      "question": "O que devo fazer se presenciar uma irregularidade no trabalho?",
+      "expected": [
+        "conhecimento da autoridade superior"
+      ]
+    },
+    {
+      "question": "Qual o papel da Comissão de Ética da EMPETUR?",
+      "expected": [
+        "instância consultiva"
+      ]
+    },
+    {
+      "question": "A EMPETUR pode pagar viagens de funcionários?",
+      "expected": [
+        "custear viagens"
+      ]
+    },
+    {
+      "question": "Pregoeiros e membros de comissão de licitação recebem gratificação?",
+      "expected": [
+        "gratificações de pregoeiro"
+      ]
+    },
+    {
+      "question": "Os valores de cachês artísticos foram atualizados?",
+      "expected": [
+        "valores de caches"
+      ]
+    },
+    {
+      "question": "Quando o convenente precisa devolver recursos de um convênio?",
+      "expected": [
+        "DEVOLUÇÃO DOS RECURSOS"
+      ]
     }
+  ],
+  "unanswerable": [
+    "Qual é a programação do Carnaval de Olinda deste ano?",
+    "Qual é o salário do presidente da EMPETUR?",
+    "Quantos turistas visitaram Pernambuco em 2024?"
   ]
 }

@@ -51,15 +51,33 @@ Falhas atuais (✗): presentes de fornecedores, documentos para convênio, progr
 - Ele quebrou "senha" (o trecho não passou da nota mínima de 0,1 ou caiu do top 6), e "presentes" segue fora dos 80 candidatos.
 - Fica **desligado por padrão** até ampliar o eval. Com 14 perguntas, uma pergunta vale 7 pontos, o que é pouco para decidir.
 
+### OCR e avaliação ampliada (mesma sessão)
+- **OCR com Tesseract** (`app/rag/ocr.py`): as páginas de PDF com menos de 100 caracteres são renderizadas a 300 dpi (pypdfium2) e lidas em português. O modelo `por.traineddata` (tessdata_best) fica em `data/tessdata/`, fora do Git. Para baixar: `curl -L -o data/tessdata/por.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/main/por.traineddata`.
+- Resoluções 006/2021 e 007/2021 recuperadas (antes só tinham o carimbo). Entraram as **08/2023** (gratificações de pregoeiro e comissões de licitação) e **09/2023** (atualização dos valores de cachês). Agora são 25 fontes, e a ingestão leva cerca de 4,5 min por causa do OCR (~4 s por página).
+- ⚠️ **O OCR erra números** (leu "Nº 68" em vez de "Nº 08" e trocou dígitos do CNPJ). Valores vindos desses documentos merecem desconfiança.
+- O gabarito de "presentes" foi corrigido: a regra certa é o **Art. 15** do Código de Ética (proibido, salvo até R$ 100 etc.), não o Art. 13.
+- **Eval ampliado para 31 perguntas**, todas com o trecho esperado conferido no banco, mais 3 perguntas sem resposta (`unanswerable`) para avaliar recusas no futuro.
+
+| Configuração (31 perguntas) | hit@6 | MRR |
+|---|---|---|
+| Sem reranker | **77%** | 0.54 |
+| Com reranker | 77% | **0.65** |
+
+Falhas sem reranker: documentos para convênio, ONG em convênio, salário do aprendiz, penalidades do Código, campanha política, irregularidade e devolução de recursos.
+
+### O que tem no corpus (resumo)
+Regras e processos, não turismo em si: fomento e pedidos de apoio, contratação de artistas e cachês, convênios (resoluções, decreto e portaria SCGE), Código de Ética 2024, Jovem Aprendiz, gratificações de licitação e páginas institucionais (contato, ouvidoria, comissão de ética). **Não tem** eventos, destinos, estatísticas de turismo, salários nem conteúdo de contratos e licitações.
+
 ## Próximos passos (retomar aqui)
 1. **Melhorar a recuperação**, sempre medindo com `make eval`:
    - ~~Dividir por artigo/inciso~~ e ~~título no embedding~~: feitos em 2026-10-24.
    - ~~Reranker~~: feito, opcional (ver a tabela acima).
-   - **Próximo:** analisar os erros ("senha" com o reranker, "presentes") e ampliar o eval para 30 a 50 perguntas.
+   - ~~Ampliar o eval~~: feito (31 perguntas).
+   - **Próximo:** analisar uma a uma as 7 falhas acima, ver em que posição está o trecho e por quê.
    - Avaliar a **resposta final** (fidelidade às fontes), não só a recuperação.
    - Ampliar o eval para cerca de 30 perguntas.
 2. **Interface web (Next.js)**: chat com as fontes clicáveis (título, página, link para o PDF oficial).
-3. **OCR** para os PDFs escaneados: as Resoluções 08/2023 e 09/2023 hoje ficam sem texto.
+3. ~~OCR~~: feito.
 4. **Etapa 3**: agente com ferramentas (LangGraph), chamados fictícios, confirmação antes de ações e auditoria.
 
 ## Como retomar

@@ -1,5 +1,6 @@
 """Ingestão de documentos e respostas fundamentadas (RAG)."""
 
+import asyncio
 import hashlib
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, replace
@@ -8,7 +9,7 @@ from pathlib import PurePath
 from app.config import Settings
 from app.llm import Message, OllamaClient
 from app.rag.chunking import chunk_pages
-from app.rag.parsing import parse_document
+from app.rag.parsing import OCRFunc, parse_document
 from app.rag.rerank import Reranker
 from app.rag.store import Document, DocumentStore, SearchHit
 
@@ -62,11 +63,13 @@ class RagService:
         llm: OllamaClient,
         store: DocumentStore,
         reranker: Reranker | None = None,
+        ocr: OCRFunc | None = None,
     ):
         self.settings = settings
         self.llm = llm
         self.store = store
         self.reranker = reranker
+        self.ocr = ocr
 
     async def ingest(
         self, filename: str, data: bytes, title: str | None = None, source_url: str | None = None
@@ -75,7 +78,8 @@ class RagService:
         if existing := await self.store.find_by_hash(sha256):
             return IngestResult(existing, created=False)
 
-        pages = parse_document(filename, data)
+        # Leitura e OCR são síncronos e podem demorar; rodam fora do loop de eventos.
+        pages = await asyncio.to_thread(parse_document, filename, data, self.ocr)
         chunks = chunk_pages(pages, self.settings.chunk_size, self.settings.chunk_overlap)
         if not chunks:
             raise EmptyDocumentError(

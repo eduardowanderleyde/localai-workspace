@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -24,6 +25,10 @@ class Settings(BaseSettings):
     # Banco vazio desativa as rotas de documentos (útil em testes do chat).
     database_url: str = "postgresql://localai:localai@localhost:5434/localai"
     embedding_dim: int = 1024  # bge-m3
+
+    # OCR das páginas escaneadas (Tesseract). O modelo de português fica em data/tessdata/.
+    ocr_enabled: bool = True
+    tessdata_dir: Path = Path(__file__).resolve().parents[2] / "data" / "tessdata"
 
     chunk_size: int = 1200
     chunk_overlap: int = 200
