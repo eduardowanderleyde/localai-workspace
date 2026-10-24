@@ -41,10 +41,22 @@ Falhas atuais (✗): presentes de fornecedores, documentos para convênio, progr
 - Resultado: **hit@6 = 86%** (12/14), MRR 0.55, com 514 trechos.
 - Ainda falham: "presentes de fornecedores" (trecho na posição 73 do vetor e 49 do texto) e "documentos para convênio" (melhor posição 27). Os dois precisam de um **reranker** com mais candidatos.
 
+### Reranker (bge-reranker-v2-m3, 80 candidatos), opcional com `RAG_RERANK=true`
+| Configuração | hit@6 | MRR | Latência da busca |
+|---|---|---|---|
+| Sem reranker | 86% | 0.55 | ~0,1 s |
+| Com reranker | 86% | **0.75** | +3 a 4 s (38 s na 1ª, para carregar o modelo) |
+
+- Com o reranker, o trecho certo fica em **1º lugar** em 10 das 14 perguntas. "Convênio" passou a ser encontrado.
+- Ele quebrou "senha" (o trecho não passou da nota mínima de 0,1 ou caiu do top 6), e "presentes" segue fora dos 80 candidatos.
+- Fica **desligado por padrão** até ampliar o eval. Com 14 perguntas, uma pergunta vale 7 pontos, o que é pouco para decidir.
+
 ## Próximos passos (retomar aqui)
 1. **Melhorar a recuperação**, sempre medindo com `make eval`:
    - ~~Dividir por artigo/inciso~~ e ~~título no embedding~~: feitos em 2026-10-24.
-   - **Próximo:** reranker `bge-reranker-v2-m3` sobre a busca híbrida com 80 candidatos, atrás de uma configuração (`RAG_RERANK`). Medir o hit@6 e a latência.
+   - ~~Reranker~~: feito, opcional (ver a tabela acima).
+   - **Próximo:** analisar os erros ("senha" com o reranker, "presentes") e ampliar o eval para 30 a 50 perguntas.
+   - Avaliar a **resposta final** (fidelidade às fontes), não só a recuperação.
    - Ampliar o eval para cerca de 30 perguntas.
 2. **Interface web (Next.js)**: chat com as fontes clicáveis (título, página, link para o PDF oficial).
 3. **OCR** para os PDFs escaneados: as Resoluções 08/2023 e 09/2023 hoje ficam sem texto.

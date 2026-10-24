@@ -33,6 +33,13 @@ class Settings(BaseSettings):
     # Similaridade de cosseno mínima para um trecho ser usado como fonte.
     rag_min_score: float = 0.45
 
+    # Reranker cross-encoder sobre mais candidatos (requer o extra `rerank`).
+    rag_rerank: bool = False
+    rerank_model: str = "BAAI/bge-reranker-v2-m3"
+    rerank_candidates: int = 80
+    # Com o reranker ligado, esta nota (0 a 1) substitui o limiar de cosseno.
+    rerank_min_score: float = 0.1
+
     cors_origins: list[str] = ["http://localhost:3000"]
 
 

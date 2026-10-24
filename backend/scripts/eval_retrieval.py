@@ -15,6 +15,7 @@ from pathlib import Path
 from app.config import get_settings
 from app.db import open_pool
 from app.llm import OllamaClient
+from app.rag.rerank import Reranker
 from app.rag.service import RagService
 from app.rag.store import DocumentStore
 
@@ -43,10 +44,15 @@ async def main(eval_file: Path, compare_hyde: bool) -> int:
     llm = OllamaClient(settings)
     pool = await open_pool(settings.database_url, settings.embedding_dim)
 
+    reranker = Reranker(settings.rerank_model) if settings.rag_rerank else None
     configs = [False, True] if compare_hyde else [settings.rag_hyde]
     for hyde in configs:
-        rag = RagService(settings.model_copy(update={"rag_hyde": hyde}), llm, DocumentStore(pool))
-        print(f"\nHyDE {'ligado' if hyde else 'desligado'} (top_k={settings.rag_top_k}):")
+        cfg = settings.model_copy(update={"rag_hyde": hyde})
+        rag = RagService(cfg, llm, DocumentStore(pool), reranker)
+        print(
+            f"\nHyDE {'ligado' if hyde else 'desligado'}, "
+            f"reranker {'ligado' if reranker else 'desligado'} (top_k={settings.rag_top_k}):"
+        )
         hit_rate, mrr = await evaluate(rag, cases)
         print(f"  hit@{settings.rag_top_k}: {hit_rate:.0%}   MRR: {mrr:.2f}")
 

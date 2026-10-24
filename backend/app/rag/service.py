@@ -2,13 +2,14 @@
 
 import hashlib
 from collections.abc import AsyncIterator
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import PurePath
 
 from app.config import Settings
 from app.llm import Message, OllamaClient
 from app.rag.chunking import chunk_pages
 from app.rag.parsing import parse_document
+from app.rag.rerank import Reranker
 from app.rag.store import Document, DocumentStore, SearchHit
 
 EMBED_BATCH = 16
@@ -55,10 +56,17 @@ class Source:
 
 
 class RagService:
-    def __init__(self, settings: Settings, llm: OllamaClient, store: DocumentStore):
+    def __init__(
+        self,
+        settings: Settings,
+        llm: OllamaClient,
+        store: DocumentStore,
+        reranker: Reranker | None = None,
+    ):
         self.settings = settings
         self.llm = llm
         self.store = store
+        self.reranker = reranker
 
     async def ingest(
         self, filename: str, data: bytes, title: str | None = None, source_url: str | None = None
@@ -103,10 +111,22 @@ class RagService:
             )
             texts.append(f"{question}\n{hypothetical}")
         embeddings = await self.llm.embed(texts)
-        hits = await self.store.search(
-            list(zip(embeddings, texts, strict=True)), self.settings.rag_top_k
-        )
-        relevant = [h for h in hits if h.score >= self.settings.rag_min_score]
+        queries = list(zip(embeddings, texts, strict=True))
+        top_k = self.settings.rag_top_k
+
+        if not self.reranker:
+            hits = await self.store.search(queries, top_k)
+            relevant = [h for h in hits if h.score >= self.settings.rag_min_score]
+        else:
+            # Rede larga na busca rápida; o reranker escolhe os melhores entre os candidatos.
+            hits = await self.store.search(queries, self.settings.rerank_candidates)
+            scores = await self.reranker.score(question, [h.content for h in hits])
+            ranked = sorted(zip(scores, hits, strict=True), key=lambda x: x[0], reverse=True)
+            relevant = [
+                replace(h, score=s)
+                for s, h in ranked[:top_k]
+                if s >= self.settings.rerank_min_score
+            ]
         return [_to_source(i, h) for i, h in enumerate(relevant, 1)]
 
     def build_messages(self, question: str, sources: list[Source]) -> list[Message]:
