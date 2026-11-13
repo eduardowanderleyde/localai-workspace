@@ -37,6 +37,11 @@ class Settings(BaseSettings):
     rag_hyde: bool = False
     # Similaridade de cosseno mínima para um trecho ser usado como fonte.
     rag_min_score: float = 0.45
+    # Busca textual (full-text) fundida à vetorial por RRF. Desligada: com os termos unidos por
+    # OU, palavras que aparecem em quase todo trecho ("empetur", "pode") geram um ranking quase
+    # aleatório que empurra o trecho certo para fora do top 6 (eval de 2026-11-12: híbrida 77%,
+    # só vetor 97%; também empatou ou perdeu em perguntas com número de resolução/telefone).
+    rag_text_search: bool = False
 
     # Reranker cross-encoder sobre mais candidatos (requer o extra `rerank`).
     rag_rerank: bool = False

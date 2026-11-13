@@ -117,13 +117,16 @@ class RagService:
         embeddings = await self.llm.embed(texts)
         queries = list(zip(embeddings, texts, strict=True))
         top_k = self.settings.rag_top_k
+        text_search = self.settings.rag_text_search
 
         if not self.reranker:
-            hits = await self.store.search(queries, top_k)
+            hits = await self.store.search(queries, top_k, text_search=text_search)
             relevant = [h for h in hits if h.score >= self.settings.rag_min_score]
         else:
             # Rede larga na busca rápida; o reranker escolhe os melhores entre os candidatos.
-            hits = await self.store.search(queries, self.settings.rerank_candidates)
+            hits = await self.store.search(
+                queries, self.settings.rerank_candidates, text_search=text_search
+            )
             scores = await self.reranker.score(question, [h.content for h in hits])
             ranked = sorted(zip(scores, hits, strict=True), key=lambda x: x[0], reverse=True)
             relevant = [

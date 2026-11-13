@@ -95,18 +95,23 @@ class DocumentStore:
             return cur.rowcount > 0
 
     async def search(
-        self, queries: list[tuple[list[float], str]], top_k: int, candidates: int = 40
+        self,
+        queries: list[tuple[list[float], str]],
+        top_k: int,
+        candidates: int = 40,
+        text_search: bool = True,
     ) -> list[SearchHit]:
-        """Busca híbrida com várias consultas (embedding, texto).
+        """Busca com várias consultas (embedding, texto).
 
-        Para cada consulta gera um ranking vetorial e um textual; todos são fundidos por
-        Reciprocal Rank Fusion (k=60). `score` é a maior similaridade de cosseno entre o
-        trecho e as consultas, usada como limiar de relevância.
+        Para cada consulta gera um ranking vetorial e, se `text_search`, um textual; todos são
+        fundidos por Reciprocal Rank Fusion (k=60). `score` é a maior similaridade de cosseno
+        entre o trecho e as consultas, usada como limiar de relevância.
         """
         vectors = [np.array(e, dtype=np.float32) for e, _ in queries]
         async with self.pool.connection() as conn:
             rankings = [await self._vector_ranking(conn, v, candidates) for v in vectors]
-            rankings += [await self._text_ranking(conn, t, candidates) for _, t in queries]
+            if text_search:
+                rankings += [await self._text_ranking(conn, t, candidates) for _, t in queries]
 
             rrf: dict[int, float] = {}
             for ranking in rankings:

@@ -68,12 +68,48 @@ Falhas sem reranker: documentos para convênio, ONG em convênio, salário do ap
 ### O que tem no corpus (resumo)
 Regras e processos, não turismo em si: fomento e pedidos de apoio, contratação de artistas e cachês, convênios (resoluções, decreto e portaria SCGE), Código de Ética 2024, Jovem Aprendiz, gratificações de licitação e páginas institucionais (contato, ouvidoria, comissão de ética). **Não tem** eventos, destinos, estatísticas de turismo, salários nem conteúdo de contratos e licitações.
 
+## 2026-11-12: Busca textual desligada, de 77% para 97%
+
+**Diagnóstico das 7 falhas:** em 4 delas, o trecho certo estava em #2 a #5 na busca vetorial,
+mas em #61 a #314 na textual. Como a busca textual une os termos por OU, palavras presentes em
+quase todo trecho ("empetur", "pode", "faz", "qual") geram um ranking quase aleatório, e a
+fusão RRF empurrava o trecho certo para fora do top 6.
+
+| Configuração (31 perguntas, gabarito corrigido) | hit@6 | MRR | Latência |
+|---|---|---|---|
+| Híbrida (vetor + texto), o padrão antigo | 81% | 0.55 | ~0,1 s |
+| **Só vetor (novo padrão, `RAG_TEXT_SEARCH=false`)** | **97%** | **0.64** | ~0,1 s |
+| Só vetor + reranker | 81% | 0.67 | +3 s |
+| Híbrida + reranker | 81% | 0.67 | +3 s |
+
+Também testadas e piores que só vetor: texto com metade do peso (81%) e texto sem os termos
+frequentes, df > 15% (81%).
+
+- **Gabarito corrigido:** "devolver recursos" esperava o título `DEVOLUÇÃO DOS RECURSOS`, mas a
+  resposta é o Art. 44 da Portaria SCGE 55/2013 e o Art. 35 do Decreto 39.376/2013 ("saldos
+  financeiros remanescentes… devolvidos… em 30 dias"). Essa regra já vinha em 1º lugar.
+- **Teste de referências exatas** (8 perguntas fora do eval: resolução 09/2023, telefone,
+  e-mail, Lei 14.104, artigos): só vetor empatou ou ganhou em todas. A busca textual não salvou
+  nenhum caso.
+- O código da busca textual continua no lugar (`RAG_TEXT_SEARCH=true`).
+
+### Falhas e limitações que restam
+- **"Documentos para convênio":** a lista com FGTS aparece em 11 trechos de resoluções
+  diferentes (01/2010, 02, 04/2015…). Antes de mexer na busca, é preciso decidir qual
+  resolução está em vigor e pode ser citada.
+- **Artigo pelo número** ("O que diz o Art. 15 do Código de Ética?") falha nas duas buscas.
+  Ideia: detectar `art. N` e o nome do documento na pergunta e filtrar por eles.
+- O reranker, com o novo padrão, piora o hit@6 (81%). Continua desligado.
+- As 3 perguntas sem resposta (`unanswerable`) e a fidelidade da resposta final ainda não são
+  medidas.
+
 ## Próximos passos (retomar aqui)
 1. **Melhorar a recuperação**, sempre medindo com `make eval`:
    - ~~Dividir por artigo/inciso~~ e ~~título no embedding~~: feitos em 2026-10-24.
    - ~~Reranker~~: feito, opcional (ver a tabela acima).
    - ~~Ampliar o eval~~: feito (31 perguntas).
-   - **Próximo:** analisar uma a uma as 7 falhas acima, ver em que posição está o trecho e por quê.
+   - ~~Analisar as 7 falhas~~: feito em 2026-11-12 (busca textual desligada, 97%).
+   - **Próximo:** consulta por número de artigo e medição das recusas (`unanswerable`).
    - Avaliar a **resposta final** (fidelidade às fontes), não só a recuperação.
    - Ampliar o eval para cerca de 30 perguntas.
 2. **Interface web (Next.js)**: chat com as fontes clicáveis (título, página, link para o PDF oficial).
